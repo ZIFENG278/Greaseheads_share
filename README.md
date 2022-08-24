@@ -44,7 +44,7 @@ python3 auto_download_xiecheng.py
 
 **默认线程池为8**
 
-![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/Screenshot%20from%202022-08-24%2022-45-44.png?raw=true)
+![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/2.png?raw=true)
 
 
 
