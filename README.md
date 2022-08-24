@@ -14,11 +14,11 @@
 
 > 推荐使用conda环境 ***python>=3.7***
 
+- 需要抓取master分支(直接clone在mian支无内容的)
+
 ```
 git clone https://github.com/ZIFENG278/Greaseheads_share.git
 ```
-
-- 需要抓取master分支(直接clone在mian支无内容的)
 
 - 安装所需环境
 
@@ -26,25 +26,20 @@ git clone https://github.com/ZIFENG278/Greaseheads_share.git
 pip3 install -r requirements.txt
 ```
 
-- **在代码同目录先新建一个你喜欢的角色名的文件夹，并在get_tasks函数处修改路径**
-
-![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/Screenshot%20from%202022-08-24%2022-45-27.png?raw=true)
-
-- **挑选你喜欢的角色复制url到url_ycc_main处 否则默认推荐角色**
-
-![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/Screenshot%20from%202022-08-24%2022-45-04.png?raw=true)
+- **(option)挑选你喜欢的角色复制url到url_ycc_main处 否则默认推荐角色, 并代码同目录先新建一个你喜欢的角色名的文件夹，且在get_tasks函数处修改路径，不改则是默认Example（参考assets/image）**
+- 运行程序
 
 ```
 python3 auto_download_xiecheng.py
 ```
 
-**mac M1芯片16线程测试时初段直接显示open too much file自动终止，需要减少线程的数量**
+查看文件夹时建议选择以last modifide排序，越新越好看，并且以后想更新最新图集只需稍微改一下代码就可以补齐，大致时间线也不会乱
 
-**实测ubuntu开16线程偶尔也有部分段open too much file, 建议12或8，看cpu性能选择合适线程**
+**mac M1芯片16线程测试时初段直接显示too many open files自动终止，需要减少线程的数量**
 
-**默认线程池为8**
+**实测ubuntu开16,10,12线程也有部分段too many open files 实测8无问题默认线程池为8**
 
-![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/2.png?raw=true)
+[too many open files 报错解决可参考](https://support.axway.com/kb/101749/language/en#:~:text=The%20%22Too%20many%20open%20files%22%20message%20means%20that%20the%20operating,command%20displays%20the%20current%20limit.)
 
 
 
@@ -109,7 +104,7 @@ python3 auto_download_xiecheng.py
 
 3. 得到所有预处理数据后，利用协程进行异步访问与异步写入，用到asyncio，aiohttp ，aiofiles 三个库，因为网站有时候会存在相同名称的图集，所以遇到相同名称的后面加上new防止覆盖，宁可多下也不愿意错过
 
-   **window用户需要修改一下路径，改成反斜杠，mkdir函数不清楚window用户是否能跑，可能要稍微改改**
+   **windows用户需要修改一下路径，改成反斜杠，mkdir函数不清楚windows用户是否能跑，可能要稍微改改**
 
    ```python
    def mkdir(path):
@@ -176,7 +171,7 @@ from concurrent.futures import ThreadPoolExecutor
 # 同步  1.打开图包页，获得所有jpg的子链接
 # 异步下载到文件中
 
-url_ycc_main = "https://www.xsnvshen.com/girl/18220"  # 要下载不同角色，替换这里的角色主页url
+url_ycc_main = "https://www.xsnvshen.com/girl/17424"   # 此处更改角色的主页
 url_2 = "https://www.xsnvshen.com"
 
 header = {
@@ -241,13 +236,14 @@ async def aiodownload(full_link, img_name, folder_name):
             # print(type(jpg_content), img_name)
             async with aiofiles.open(folder_name + "/" + img_name, 'wb') as f:
                 await f.write(jpg_content)
-                # await f.close()
+                f.close()
+        resp.close()
     print(img_name + " over!")
 
 
 async def get_tasks(url):
     data = get_pre_data(url)
-    folder_name = mkdir("pa_qilijia_project/" + data[1])  # 更不同角色的改路径名称
+    folder_name = mkdir("wangxinyao_example/" + data[1])  # 更改路径
     tasks = []
     for jpgs in range(data[2]):
         full_link = data[0] + str(jpgs).rjust(3, '0') + '.jpg'
@@ -289,11 +285,9 @@ def get_all_album_link(url):
 
 if __name__ == '__main__':
     all_href = get_all_album_link(url_ycc_main)
-    with ThreadPoolExecutor(16) as t:
+    with ThreadPoolExecutor(8) as t:  # 更改线程池数量
         for i in range(len(all_href) - 1, -1, -1):
             t.submit(down_one_album, url=all_href[i])
             # time.sleep(60)
-
-
 ```
 

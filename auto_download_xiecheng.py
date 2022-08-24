@@ -11,7 +11,7 @@ from concurrent.futures import ThreadPoolExecutor
 # 同步  1.打开图包页，获得所有jpg的子链接
 # 异步下载到文件中
 
-url_ycc_main = "https://www.xsnvshen.com/girl/18220"   # 此处更改角色的主页
+url_ycc_main = "https://www.xsnvshen.com/girl/17424"   # 此处更改角色的主页
 url_2 = "https://www.xsnvshen.com"
 
 header = {
@@ -76,13 +76,14 @@ async def aiodownload(full_link, img_name, folder_name):
             # print(type(jpg_content), img_name)
             async with aiofiles.open(folder_name + "/" + img_name, 'wb') as f:
                 await f.write(jpg_content)
-                # await f.close()
+                f.close()
+        resp.close()
     print(img_name + " over!")
 
 
 async def get_tasks(url):
     data = get_pre_data(url)
-    folder_name = mkdir("pa_qilijia_project/" + data[1])  # 更改路径
+    folder_name = mkdir("wangxinyao_example/" + data[1])  # 更改路径
     tasks = []
     for jpgs in range(data[2]):
         full_link = data[0] + str(jpgs).rjust(3, '0') + '.jpg'
@@ -128,4 +129,3 @@ if __name__ == '__main__':
         for i in range(len(all_href) - 1, -1, -1):
             t.submit(down_one_album, url=all_href[i])
             # time.sleep(60)
-
