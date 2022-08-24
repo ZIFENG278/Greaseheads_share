@@ -18,21 +18,21 @@
 git clone https://github.com/ZIFENG278/Greaseheads_share.git
 ```
 
-需要抓取master分支(直接clone在mian支无内容的)
+- 需要抓取master分支(直接clone在mian支无内容的)
 
-安装所需环境
+- 安装所需环境
 
 ```
 pip3 install -r requirements.txt
 ```
 
-**在代码同目录先新建一个你喜欢的角色名的文件夹，并在get_tasks函数处修改路径**
+- **在代码同目录先新建一个你喜欢的角色名的文件夹，并在get_tasks函数处修改路径**
 
-![picture](/home/zifeng/Pictures/Screenshots/zz1.png)
+![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/Screenshot%20from%202022-08-24%2022-45-27.png?raw=true)
 
-**挑选你喜欢的角色复制url到url_ycc_main处 否则默认推荐角色**
+- **挑选你喜欢的角色复制url到url_ycc_main处 否则默认推荐角色**
 
-![picture](/home/zifeng/Pictures/Screenshots/zz2.png)
+![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/Screenshot%20from%202022-08-24%2022-45-04.png?raw=true)
 
 ```
 python3 auto_download_xiecheng.py
@@ -44,7 +44,7 @@ python3 auto_download_xiecheng.py
 
 **默认线程池为8**
 
-
+![picture](https://github.com/ZIFENG278/Greaseheads_share/blob/master/assets/image/Screenshot%20from%202022-08-24%2022-45-44.png?raw=true)
 
 
 
