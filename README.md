@@ -35,10 +35,10 @@ pip3 install -r requirements.txt
 ![picture](/home/zifeng/Pictures/Screenshots/zz2.png)
 
 ```
-python3 pornhub_youtou.py
+python3 auto_download_xiecheng.py
 ```
 
-
+**mac 测试时显示open too much file 可能是mac os的限制，需要减少线程的数量**
 
 
 
