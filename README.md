@@ -15,8 +15,10 @@
 > 推荐使用conda环境 python>=3.7
 
 ```
-wget https://github.com/ZIFENG278/Greaseheads_share.git
+git clone git@github.com:ZIFENG278/Greaseheads_share.git
 ```
+
+需要抓取master分支(直接clone在mian支无内容的)
 
 安装所需环境
 
@@ -25,8 +27,6 @@ pip3 install -r requirements.txt
 ```
 
 **在代码同目录先新建一个你喜欢的角色名的文件夹，并在get_tasks函数处修改路径**
-
-
 
 ![picture](/home/zifeng/Pictures/Screenshots/zz1.png)
 
