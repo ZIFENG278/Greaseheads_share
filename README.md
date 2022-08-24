@@ -6,16 +6,16 @@
 >
 > Linux/mac用户安装所需库后添加文件夹后修改保存路径后可直接运行
 >
-> window用户需修改保存路径的反斜杠
+> windows用户需修改保存路径的反斜杠
 
 
 
-## Linux系统使用方法
+## Linux/Mac Usage
 
-> 推荐使用conda环境 python>=3.7
+> 推荐使用conda环境 ***python>=3.7***
 
 ```
-git clone git@github.com:ZIFENG278/Greaseheads_share.git
+git clone https://github.com/ZIFENG278/Greaseheads_share.git
 ```
 
 需要抓取master分支(直接clone在mian支无内容的)
@@ -38,13 +38,19 @@ pip3 install -r requirements.txt
 python3 auto_download_xiecheng.py
 ```
 
-**mac 测试时显示open too much file 可能是mac os的限制，需要减少线程的数量**
+**mac M1芯片16线程测试时初段直接显示open too much file自动终止，需要减少线程的数量**
+
+**实测ubuntu开16线程偶尔也有部分段open too much file, 建议12或8，看cpu性能选择合适线程**
+
+**默认线程池为8**
 
 
 
-## 开发过程
 
-python爬虫
+
+## 开发思路
+
+> python爬虫
 
 1. 利用requests对人物的主页进行访问，获取源码后放进BeautifulSoup里，通过标签查找找出主页所有图册的href
 
@@ -101,7 +107,7 @@ python爬虫
 
 
 
-3. 得到所有预处理数据后，利用协程进行异步访问与异步写入，用到asyncio，aiohttp ，aiofiles, 同时建立文件夹，因为网站有时候会存在相同名称的图集，所以遇到相同名称的后面加上new防止覆盖，宁可多下也不愿意错过
+3. 得到所有预处理数据后，利用协程进行异步访问与异步写入，用到asyncio，aiohttp ，aiofiles 三个库，因为网站有时候会存在相同名称的图集，所以遇到相同名称的后面加上new防止覆盖，宁可多下也不愿意错过
 
    **window用户需要修改一下路径，改成反斜杠，mkdir函数不清楚window用户是否能跑，可能要稍微改改**
 
