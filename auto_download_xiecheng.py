@@ -28,7 +28,7 @@ get_title = re.compile(r'<title>(?P<title>.*?)</title>', re.S)
 
 find_num_picture = re.compile(r'更新.*?<span style.*?共 (?P<num_picture>.*?) 张', re.S)
 
-get_half_jpg_link = re.compile(r'(?P<half_link>.*?)000.jpg')
+# get_half_jpg_link = re.compile(r'(?P<half_link>.*?)000.jpg')
 
 
 def mkdir(path):
@@ -56,7 +56,8 @@ def get_pre_data(url):
     first_picture_href = resp_bs.find("div", class_="swpt-full-wrap").find("a").get('href')
     # print(first_picture_href)
     full_first_jpg_link = 'https:' + first_picture_href
-    jpg_half_link = get_half_jpg_link.search(full_first_jpg_link).group("half_link")
+    # jpg_half_link = get_half_jpg_link.search(full_first_jpg_link).group("half_link")
+    jpg_half_link = full_first_jpg_link.rsplit("/", 1)[0] + "/"
     data.append(jpg_half_link)
     title = get_title.search(resp.text).group("title")
     # print(title)
