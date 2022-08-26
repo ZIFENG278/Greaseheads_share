@@ -1,5 +1,9 @@
 # Beauty picture reptile tool
 
+[中文 Chinese](https://github.com/ZIFENG278/Greaseheads_share)
+
+[英文 English](https://github.com/ZIFENG278/Greaseheads_share/blob/master/README_EN.md)
+
 > Reptile combat
 >
 > This time, I started with an unencrypted image website for non-client rendering. I found a third-party image website with fast update speed, perfect atlas and very suitable for crawling. [Click to jump](https://www.xsnvshen.com)

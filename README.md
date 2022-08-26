@@ -1,4 +1,7 @@
 # 	mm图片爬虫工具（油头党专用）
+[中文 Chinese](https://github.com/ZIFENG278/Greaseheads_share)
+
+[英文 English](https://github.com/ZIFENG278/Greaseheads_share/blob/master/README_EN.md)
 
 > 爬虫实战
 >
