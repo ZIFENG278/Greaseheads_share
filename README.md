@@ -17,7 +17,7 @@
 
 > 推荐使用conda环境 ***python>=3.7***
 
-- 抓取master分支（main分支无内容）
+- **抓取master分支（main分支无内容）**
 
 ```bash
 git clone https://github.com/ZIFENG278/Greaseheads_share.git
@@ -26,30 +26,30 @@ git clone https://github.com/ZIFENG278/Greaseheads_share.git
 ```bash
 wget https://github.com/ZIFENG278/Greaseheads_share/archive/refs/heads/master.zip
 ```
-- 安装所需环境
+- **安装所需环境**
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-- **(option)挑选你喜欢的角色复制url到url_ycc_main处 否则默认推荐角色, 并代码同目录先新建一个你喜欢的角色名的文件夹，且在get_tasks函数处修改路径，不改则是默认Example（参考assets/image）**
+- (option)挑选你喜欢的角色复制url到url_ycc_main处 否则默认推荐角色, 并代码同目录先新建一个你喜欢的角色名的文件夹，且在get_tasks函数处修改路径，不改则是默认Example（参考assets/image）
 
 
-- 运行程序
+- **运行程序**
 ```bash
 python3 auto_download_xiecheng.py
 ```
-- 后续更新图集，在更新程序中放好角色主页url，与角色路径到各自的list中，url与人物路径顺序必须一一对应，确保路径无误后运行
+- **后续更新图集，在更新程序中放好角色主页url，与角色路径到各自的list中，url与人物路径顺序必须一一对应，确保路径无误后运行**
 ```bash
 python3 auto_update_xiecheng.py
 ````
 查看文件夹时建议选择以last modifide排序，越新越好看，并且以后想更新最新图集只需稍微改一下代码就可以补齐，大致时间线也不会乱
 
-**实测ubuntu开8线程以上也有部分段too many open files 实测8无问题，默认线程池为8**
+实测ubuntu开8线程以上也有部分段too many open files 实测8无问题，默认线程池为8
 
-**mac M1芯片16线程测试时初段直接显示too many open files自动终止**
+Mac M1芯片16线程测试时初段直接显示too many open files自动终止
 
-**如果电脑配置比较高可尝试使用更多线程，例如固态硬盘SSD高速写入应该会避免，当然也可以直接修改系统open files maximum的值**
+如果电脑配置比较高可尝试使用更多线程，例如固态硬盘SSD高速写入应该会避免，当然也可以直接修改系统open files maximum的值
 
 [too many open files 报错解决可参考](https://support.axway.com/kb/101749/language/en#:~:text=The%20%22Too%20many%20open%20files%22%20message%20means%20that%20the%20operating,command%20displays%20the%20current%20limit.)
 
