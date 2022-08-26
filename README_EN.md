@@ -6,7 +6,7 @@
 
 > Reptile combat
 >
-> This time, I started with an unencrypted image website for non-client rendering. I found a third-party image website with fast update speed, perfect atlas and very suitable for crawling. [Click to jump](https://www.xsnvshen.com)
+> This time, I started with an unencrypted image website for non-client rendering. I found a third-party image website with fast update speed, perfect atlas and very suitable for crawling. [~~Click to jump~~]()
 >
 > Linux/Mac users can run directly after installing the required library, adding a folder and modifying the save path.
 >
