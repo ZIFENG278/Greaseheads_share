@@ -23,7 +23,7 @@
 ```bash
 git clone https://github.com/ZIFENG278/Greaseheads_share.git
 ```
-- **Or download the zip archive**
+- Or download the zip archive
 ```bash
 wget https://github.com/ZIFENG278/Greaseheads_share/archive/refs/heads/master.zip
 ```
