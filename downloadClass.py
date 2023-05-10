@@ -74,12 +74,14 @@ class Download:
                 async with aiofiles.open(folder_name + "/" + img_name, 'wb') as f:
                     await f.write(jpg_content)
                     await f.close()
+                    print(folder_name)
             resp.close()
         # print(img_name + " over!")
+        await session.close()
 
     async def get_tasks(self, url):
         data = self.get_pre_data(url)
-        folder_name = util.mkdir(self.role_path + "_example/" + data[1])  # 更改路径
+        folder_name = util.mkdir("dist/" + self.role_path + "/" + data[1])  # 更改路径
         tasks = []
         for jpgs in range(data[2]):
             full_link = data[0] + str(jpgs).rjust(3, '0') + '.jpg'
@@ -90,7 +92,7 @@ class Download:
         await asyncio.wait(tasks)
 
     def down_one_album(self, url):
-        print('down_one')
+        #print('down_one')
         # signal_album_url = 'https://www.xsnvshen.com/album/39192'
         # get_pre_data(url)
         asyncio.run(self.get_tasks(url))
