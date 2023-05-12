@@ -1,4 +1,4 @@
-from downloadClass import Download
+from download import Download
 import json
 
 with open('roles.json', 'r') as f:

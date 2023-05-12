@@ -4,8 +4,9 @@ import asyncio
 import aiohttp
 import aiofiles
 from bs4 import BeautifulSoup
-import util
+from util import mkdir_with_new, get_need_update_num
 from concurrent.futures import ThreadPoolExecutor
+
 
 class Download:
     def __init__(self, role_url, role_path):
@@ -22,7 +23,7 @@ class Download:
         self.get_title = re.compile(r'<title>(?P<title>.*?)</title>', re.S)
         self.find_num_picture = re.compile(r'更新.*?<span style.*?共 (?P<num_picture>.*?) 张', re.S)
 
-    def get_pre_data(self, url):   # done
+    def get_pre_data(self, url):  # done
         data = []  # order: jpg_half_link, title, num_picture
         resp = requests.get(url, headers=self.header)
         resp.encoding = 'utf-8'
@@ -44,7 +45,7 @@ class Download:
         resp.close()
         return data
 
-    def get_all_album_link(self):   # done
+    def get_all_album_link(self):  # done
         role_main_resp = requests.get(self.role_url, headers=self.header)
         role_main_resp.encoding = 'utf-8'
         # print(ycc_main_resp.text)
@@ -74,14 +75,14 @@ class Download:
                 async with aiofiles.open(folder_name + "/" + img_name, 'wb') as f:
                     await f.write(jpg_content)
                     await f.close()
-                    print(folder_name)
+                    #print(folder_name)
             resp.close()
         # print(img_name + " over!")
         await session.close()
 
     async def get_tasks(self, url):
         data = self.get_pre_data(url)
-        folder_name = util.mkdir("dist/" + self.role_path + "/" + data[1])  # 更改路径
+        folder_name = mkdir_with_new("dist/" + self.role_path + "/" + data[1])  # 更改路径
         tasks = []
         for jpgs in range(data[2]):
             full_link = data[0] + str(jpgs).rjust(3, '0') + '.jpg'
@@ -90,18 +91,25 @@ class Download:
             tasks.append(self.aiodownload(full_link, img_name, folder_name))
 
         await asyncio.wait(tasks)
+        print(folder_name)
 
     def down_one_album(self, url):
-        #print('down_one')
+        # print('down_one')
         # signal_album_url = 'https://www.xsnvshen.com/album/39192'
         # get_pre_data(url)
         asyncio.run(self.get_tasks(url))
 
     def start(self):
-        print('start')
-        all_href = self.get_all_album_link()
-        with ThreadPoolExecutor(8) as t:  # 更改线程池数量
-            for i in range(len(all_href) - 1, -1, -1):
-                t.submit(self.down_one_album, url=all_href[i])
-                # time.sleep(60)
-
+        try:
+            all_href = self.get_all_album_link()
+            access = True
+        except:
+            print('\033[93m' + self.role_path + " url broken. can not access the url. FAIL" + '\033[0m')
+            access = False
+        if access:
+            need_update_num = get_need_update_num(self.role_path, len(all_href))
+            with ThreadPoolExecutor(8) as t:  # 更改线程池数量
+                for i in range(need_update_num - 1, -1, -1):
+                    t.submit(self.down_one_album, url=all_href[i])
+                    # time.sleep(60)
+                print(self.role_path + "\tupdate: " + str(need_update_num) + "\tTotal: " + len(all_href))
