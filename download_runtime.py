@@ -1,12 +1,17 @@
 from download import Download
 import json
 
-with open('roles.json', 'r') as f:
-    roles_dict = json.load(f)
 
-# a = roles_dict.items()
-# print(type(a))
+def download_runtime(role_path):
+    with open('roles.json', 'r') as f:
+        roles_dict = json.load(f)
 
-role = Download(role_url=roles_dict.get('王馨瑶_Yanni'), role_path='王馨瑶_Yanni')
+    # a = roles_dict.items()
+    # print(type(a))
 
-role.start()
+    role = Download(role_url=roles_dict.get(role_path), role_path=role_path)
+
+    role.start()
+
+download_runtime('朱可儿_Flora')
+

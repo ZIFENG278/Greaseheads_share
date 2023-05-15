@@ -36,7 +36,12 @@ roles = {
     '就是阿朱啊_JiuShiAZhuA': 'https://www.xsnvshen.com/girl/26002',  # jiushiazhu
     '何嘉颖_HeJiaying': 'https://www.xsnvshen.com/girl/21790',  # xingyi
     '沈梦瑶_ShenMengyao': 'https://www.xsnvshen.com/girl/21036',  # shemengyao
-    '江真真_JiangZhenzhen': 'https://www.xsnvshen.com/girl/28290'
+    '江真真_JiangZhenzhen': 'https://www.xsnvshen.com/girl/28290',
+    '夏沫沫_Tifa': 'https://www.xsnvshen.com/girl/28231',
+    '月音瞳_YueYintong': 'https://www.xsnvshen.com/girl/22490',
+    '周九九_JojoBaby': 'https://www.xsnvshen.com/girl/28306',
+    '夏诗雯_Sally': 'https://www.xsnvshen.com/girl/27761',
+    '甜妮_Tianni': 'https://www.xsnvshen.com/girl/28250',
 }
 
 # girls_urls = [
@@ -80,9 +85,9 @@ roles = {
 #
 # ]
 
-#
-# with open('roles.json', 'w', encoding='utf8') as f:
-#     json.dump(roles, f, ensure_ascii=False)
+
+with open('roles.json', 'w', encoding='utf8') as f:
+    json.dump(roles, f, ensure_ascii=False)
 
 with open('roles.json', 'r') as f:
     a = json.load(f)

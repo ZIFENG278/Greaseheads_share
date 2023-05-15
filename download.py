@@ -80,9 +80,10 @@ class Download:
         # print(img_name + " over!")
         await session.close()
 
-    async def get_tasks(self, url):
+    async def get_tasks(self, url, index):
         data = self.get_pre_data(url)
-        folder_name = mkdir_with_new("dist/" + self.role_path + "/" + data[1])  # 更改路径
+        add_index = str(index).rjust(3, '0')
+        folder_name = mkdir_with_new("dist/" + self.role_path + "/" + add_index + data[1])  # 更改路径
         tasks = []
         for jpgs in range(data[2]):
             full_link = data[0] + str(jpgs).rjust(3, '0') + '.jpg'
@@ -93,23 +94,31 @@ class Download:
         await asyncio.wait(tasks)
         print(folder_name)
 
-    def down_one_album(self, url):
+    def down_one_album(self, url, index):
         # print('down_one')
         # signal_album_url = 'https://www.xsnvshen.com/album/39192'
         # get_pre_data(url)
-        asyncio.run(self.get_tasks(url))
+        asyncio.run(self.get_tasks(url, index))
 
     def start(self):
+        access = True
         try:
             all_href = self.get_all_album_link()
-            access = True
+            # if self.role_path == "anonymous":  # TODO waring consider sometime url broken
+            #     access = True
         except:
-            print('\033[93m' + self.role_path + " url broken. can not access the url. FAIL" + '\033[0m')
-            access = False
-        if access:
+            if self.role_path == "anonymous":
+                print('\033[93m' + "downloading in " + self.role_path + '\033[0m') # TODO waring consider sometime url broken
+            else:
+                print('\033[93m' + self.role_path + " url broken. can not access the url. FAIL" + '\033[0m')
+                access = False
+        if access and self.role_path != "anonymous":
             need_update_num = get_need_update_num(self.role_path, len(all_href))
             with ThreadPoolExecutor(8) as t:  # 更改线程池数量
                 for i in range(need_update_num - 1, -1, -1):
-                    t.submit(self.down_one_album, url=all_href[i])
+                    t.submit(self.down_one_album, url=all_href[i], index=len(all_href) - 1 - i)
                     # time.sleep(60)
-                print(self.role_path + "\tupdate: " + str(need_update_num) + "\tTotal: " + len(all_href))
+                print(self.role_path + "\tupdate: " + str(need_update_num) + "\tTotal: " + str(len(all_href)))
+        else:
+            self.down_one_album(self.role_url)
+
