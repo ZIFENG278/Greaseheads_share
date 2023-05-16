@@ -132,24 +132,33 @@ class Download:
         # print("===================")
         f = open('albums_key_value.json', 'r')
         big_dict = json.load(f)
+        f.close()
+        print(type(big_dict))
 
         for i in all_href:
             data = self.get_pre_data(i)
-            if data in big_dict[self.role_path]:   # TODO continues
-                img_num = len(os.listdir("dist/" + self.role_path + "/"  ))
+            if data[1] in big_dict[self.role_path]:   # TODO continues
+                print(data[1])
+                full_album_name = big_dict[self.role_path][data[1]] + data[1]
+                img_num = len(os.listdir("dist/" + self.role_path + "/" + full_album_name))
+                print(img_num)
+                if img_num != data[2]:
+                    print("find " + full_album_name + " not match img num, auto fix")
+                    shutil.rmtree("dist/" + self.role_path + "/" + full_album_name)
+                    self.redownload(url=i, index=big_dict[self.role_path][data[1]])
             # print(data[1])
-            for n in ls:
-                # print("==========================")
-                # print(n[3:])
-                if data[1] == n[3:]:
-                    # print(n[3:])
-                    # print("find")
-                    f = len(os.listdir("dist/" + self.role_path + "/" + n))
-                    if f != data[2]:
-                        print("find " + n + " not match img num, auto fix")
-                        shutil.rmtree("dist/" + self.role_path + "/" + n)  # 递归删除文件夹，即：删除非空文件夹
-                        self.redownload(url=i, index=n[:3]) # TODO add fix
-                    break
+            # for n in ls:
+            #     # print("==========================")
+            #     # print(n[3:])
+            #     if data[1] == n[3:]:
+            #         # print(n[3:])
+            #         # print("find")
+            #         f = len(os.listdir("dist/" + self.role_path + "/" + n))
+            #         if f != data[2]:
+            #             print("find " + n + " not match img num, auto fix")
+            #             shutil.rmtree("dist/" + self.role_path + "/" + n)  # 递归删除文件夹，即：删除非空文件夹
+            #             self.redownload(url=i, index=n[:3]) # TODO add fix
+            #         break
             # f = os.listdir("dist/" + self.role_path + "/" + r'\d{3}' + data[1])
             # print(len(f))
             # if len(f) != data[3]:

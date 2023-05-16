@@ -10,7 +10,7 @@ def download_runtime(role_path):
     role = Download(role_url=roles_dict.get(role_path), role_path=role_path)
     role.start()
 
-download_runtime('梦心玥_Candice')
+# download_runtime('梦心玥_Candice')
 
 
 def inspect_update_runtime(role_path):
@@ -32,4 +32,4 @@ def inspect_img_num_runtime(role_path):
 
 
 # inspect_update_runtime('周九九_JojoBaby')
-# inspect_img_num_runtime('王馨瑶_Yanni')
+inspect_img_num_runtime('周九九_JojoBaby')
