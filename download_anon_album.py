@@ -5,7 +5,7 @@ anon = [
     "https://www.xsnvshen.com/album/40967",
 ]
 
-def download_anon_album(url, path):
+def download_anon_album(url, path="anonymous"):
     anonymous = Download(url, path)
     anonymous.start()
     # try:
@@ -14,6 +14,5 @@ def download_anon_album(url, path):
     #     print("ok")
     # g = p.get_pre_data(url)
     # print(g)
-
 
 download_anon_album("https://www.xsnvshen.com/album/40967", "anonymous")
