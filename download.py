@@ -1,18 +1,17 @@
 import os
 import shutil
-import json
 import requests
 import re
 import asyncio
 import aiohttp
 import aiofiles
 from bs4 import BeautifulSoup
-from util import mkdir_with_new, get_need_update_num
+from util import mkdir_with_new, get_need_update_num, update_single_role_json
 from concurrent.futures import ThreadPoolExecutor
 
 
 class Download:
-    def __init__(self, role_url, role_path):
+    def __init__(self, role_url=None, role_path=None):
         self.role_url = role_url
         self.role_path = role_path
         self.main_url = "https://www.xsnvshen.com"
@@ -49,6 +48,7 @@ class Download:
         resp.close()
         return data
 
+    # @staticmethod
     def get_all_album_link(self):  # done
         role_main_resp = requests.get(self.role_url, headers=self.header)
         role_main_resp.encoding = 'utf-8'
@@ -86,7 +86,9 @@ class Download:
 
     async def get_tasks(self, url, index):
         data = self.get_pre_data(url)
-        add_index = str(index).rjust(3, '0')
+        add_index = ''
+        if index != '':
+            add_index = str(index).rjust(3, '0')
         folder_name = mkdir_with_new("dist/" + self.role_path + "/" + add_index + data[1])  # 更改路径
         tasks = []
         for jpgs in range(data[2]):
@@ -104,15 +106,19 @@ class Download:
         # get_pre_data(url)
         asyncio.run(self.get_tasks(url, index))
 
-    def inspect_update(self):
-        all_href = self.get_all_album_link()
-        #print(len(all_href))
-        all_href_num = len(all_href)
-        need_update_num = get_need_update_num(self.role_path, all_href_num)
-        local_num = all_href_num - need_update_num
-        print(self.role_path + "\tneed update: " + str(need_update_num) +\
-              "\tTotal: " + str(all_href_num), "\tLocal: " + str(local_num))
-
+    def inspect_update(self, null=None):
+        try:
+            all_href = self.get_all_album_link()
+            #print(len(all_href))
+            all_href_num = len(all_href)
+            need_update_num = get_need_update_num(self.role_path, all_href_num)
+            local_num = all_href_num - need_update_num
+            print(self.role_path + "\tneed update: " + str(need_update_num) +\
+                  "\tTotal: " + str(all_href_num), "\tLocal: " + str(local_num))
+            return all_href, all_href_num, local_num
+        except:
+            print('\033[93m' + self.role_path + " url broken. can not access the url. FAIL" + '\033[0m')
+            return null
         # return
         # for i in range(all_href - 1, -1, -1)
         #     add_index = str(index).rjust(3, '0')
@@ -120,32 +126,36 @@ class Download:
         #     if add_index + data[1] in os.listdir(self.role_path) and data[2] != len(os.listdir(self.role_path + "/" + data[1])):
         #             os.
 
-        return all_href, all_href_num, local_num
 
-    def redownload(self, url, index):
-        self.down_one_album(url, index)
+    def redownload(self, url, small_dict): # TODO redownload the special img, don't download hold album to decrease the stream
+        data = self.get_pre_data(url)
+        if data[1] in small_dict:   # TODO continues
+            # print(data[1])
+            full_album_name = small_dict[data[1]] + data[1]
+            img_num = len(os.listdir("dist/" + self.role_path + "/" + full_album_name))
+            # print(img_num)
+            if img_num != data[2]:
+                print("find " + full_album_name + " not match img num, auto fix")
+                shutil.rmtree("dist/" + self.role_path + "/" + full_album_name)
+                self.down_one_album(url=url, index=small_dict[data[1]])
 
-    def inspect_image_num(self):   # TODO consider a data structural use JSON big O2 is too slow
+    def inspect_image_num(self, small_dict):   # TODO consider a data structural use JSON big O2 is too slow use mutil thread
         all_href, all_href_num, local_num = self.inspect_update()
-        ls = os.listdir("dist/" + self.role_path)
-        # print(ls)
-        # print("===================")
-        f = open('albums_key_value.json', 'r')
-        big_dict = json.load(f)
-        f.close()
-        print(type(big_dict))
-
-        for i in all_href:
-            data = self.get_pre_data(i)
-            if data[1] in big_dict[self.role_path]:   # TODO continues
-                print(data[1])
-                full_album_name = big_dict[self.role_path][data[1]] + data[1]
-                img_num = len(os.listdir("dist/" + self.role_path + "/" + full_album_name))
-                print(img_num)
-                if img_num != data[2]:
-                    print("find " + full_album_name + " not match img num, auto fix")
-                    shutil.rmtree("dist/" + self.role_path + "/" + full_album_name)
-                    self.redownload(url=i, index=big_dict[self.role_path][data[1]])
+        # print(type(big_dict))
+        if all_href is not None or all_href_num is not None and local_num != 0:
+            with ThreadPoolExecutor(8) as t:
+                 for i in all_href:
+                     t.submit(self.redownload, url=i, small_dict=small_dict)
+            # data = self.get_pre_data(i)
+            # if data[1] in small_dict:   # TODO continues
+            #     # print(data[1])
+            #     full_album_name = small_dict[data[1]] + data[1]
+            #     img_num = len(os.listdir("dist/" + self.role_path + "/" + full_album_name))
+            #     # print(img_num)
+            #     if img_num != data[2]:
+            #         print("find " + full_album_name + " not match img num, auto fix")
+            #         shutil.rmtree("dist/" + self.role_path + "/" + full_album_name)
+            #         self.down_one_album(url=i, index=small_dict[data[1]])
             # print(data[1])
             # for n in ls:
             #     # print("==========================")
@@ -164,8 +174,7 @@ class Download:
             # if len(f) != data[3]:
             #     print("you wen ti")
 
-
-    def start(self):
+    def start(self):  # both update and start
         access = True
         try:
             all_href = self.get_all_album_link()
@@ -185,5 +194,7 @@ class Download:
                     # time.sleep(60)
                 print(self.role_path + "\tupdate: " + str(need_update_num) + "\tTotal: " + str(len(all_href)))
         else:
-            self.down_one_album(self.role_url)
+            self.down_one_album(self.role_url, index='')
+
+        # update_single_role_json(self.role_path) # TODO fix this bug
 

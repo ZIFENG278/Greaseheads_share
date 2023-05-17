@@ -42,6 +42,26 @@ roles = {
     '周九九_JojoBaby': 'https://www.xsnvshen.com/girl/28306',
     '夏诗雯_Sally': 'https://www.xsnvshen.com/girl/27761',
     '甜妮_Tianni': 'https://www.xsnvshen.com/girl/28250',
+    '阿娇_Laura': 'https://www.xsnvshen.com/girl/28288',
+    '林乐一_LinLeyi': 'https://www.xsnvshen.com/girl/28270',
+    '温心怡_WenXinyi': 'https://www.xsnvshen.com/girl/22067',
+    '吴雪瑶_WuXueyao': 'https://www.xsnvshen.com/girl/28134',
+    '林依娜_Yina': 'https://www.xsnvshen.com/girl/25888',
+    '尹甜甜_YinTiantian': 'https://www.xsnvshen.com/girl/28144',
+    '雅雯_Yawen': 'https://www.xsnvshen.com/girl/16271',
+    '林子遥_LinZiyao': 'https://www.xsnvshen.com/girl/28303',
+    '媛媛酱_Belle': 'https://www.xsnvshen.com/girl/28199',
+    '萌汉药_Baby': 'https://www.xsnvshen.com/girl/15769',
+    '是小逗逗_DouDou': 'https://www.xsnvshen.com/girl/28210',
+    '田冰冰_TianBingbing': 'https://www.xsnvshen.com/girl/27859',
+    '玉兔_Miki': 'https://www.xsnvshen.com/girl/22186',
+    '李浅浅_Danny': 'https://www.xsnvshen.com/girl/27667',
+    '77_Qiqi': 'https://www.xsnvshen.com/girl/28192',
+    '茜茜_Kimi': 'https://www.xsnvshen.com/girl/22149',
+    '余贝拉_Kimi': 'https://www.xsnvshen.com/girl/21017',
+
+
+
 }
 
 # girls_urls = [

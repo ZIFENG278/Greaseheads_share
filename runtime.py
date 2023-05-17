@@ -45,10 +45,22 @@ def inspect_update_runtime():
     # role.inspect_update()
 
 
-def inspect_img_num_runtime(role_path):
-    with open('roles.json', 'r') as f:
-        roles_dict = json.load(f)
+def inspect_img_num_runtime():
+    f = open('roles.json', 'r')
+    roles_dict = json.load(f)
+    f.close()
+    f = open('albums_key_value.json', 'r')
+    big_dict = json.load(f)
+    f.close()
+    print("++++++++++inspect img num start++++++++++")
+    with ThreadPoolExecutor(8) as t:
+        for k, v in roles_dict.items():
+            # print(k, v)
+            role = Download(role_url=v, role_path=k)
+            t.submit(role.inspect_image_num, small_dict=big_dict[k])
     # a = roles_dict.items()
     # print(type(a))
-    role = Download(role_url=roles_dict.get(role_path), role_path=role_path)
-    role.inspect_image_num()
+    # role = Download(role_url=roles_dict.get(role_path), role_path=role_path)
+    # role.inspect_image_num()
+
+# inspect_img_num_runtime()
